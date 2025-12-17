@@ -1,5 +1,5 @@
 import pytest
-import pymysql  # pip install pymysql
+import pymysql
 
 
 @pytest.fixture(scope="session")
