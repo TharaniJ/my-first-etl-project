@@ -21,6 +21,6 @@ def run_extract(cursor):
     (exists,) = cursor.fetchone()
     assert exists == 1, "stg_account_transaction was not created"
 
-# Run the extract step
+# Run the extract step 1
 def test_extract(cursor):
     run_extract(cursor)
