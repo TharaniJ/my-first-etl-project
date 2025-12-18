@@ -31,7 +31,7 @@ def run_load(cursor):
     assert cnt >= 0
     return cnt
 
-
+# Run the load step
 def test_load(cursor):
     cnt = run_load(cursor)
     print(f"Loaded {cnt} rows into rpt_txn_val_by_currency")

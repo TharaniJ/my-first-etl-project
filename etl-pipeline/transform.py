@@ -25,7 +25,7 @@ def run_transform(cursor, truncate_before_load=True):
     assert cnt >= 0
     return cnt
 
-
+# Run the transform step
 def test_transform(cursor):
     cnt = run_transform(cursor, truncate_before_load=True)
     print(f"Loaded {cnt} rows into stg_account_transaction")
