@@ -67,6 +67,33 @@ pipeline {
             }
         }
 
+        stage('databse configuration') {
+                    steps {
+                        sh '''
+                            set -e
+                            . venv/bin/activate
+        
+                            RUN_DATE_ARG=${RUN_DATE:-$(date +%F)}
+        
+                            echo "Running EXTRACT for ENVIRONMENT=$ENVIRONMENT FULL_RELOAD=$FULL_RELOAD RUN_DATE=$RUN_DATE_ARG"
+        
+                            python etl-pipeline/conftest.py \
+                              --env "$ENVIRONMENT" \
+                              --full-reload "$FULL_RELOAD" \
+                              --run-date "$RUN_DATE_ARG" \
+                              --src-dsn "$SRC_DB_DSN" \
+                              --output-dir "data/raw/$RUN_DATE_ARG"
+                        '''
+                    }
+                }
+        stage('validate databse configuration') {
+                    steps {
+                        sh '''
+                            echo "Running Validate databse configuration!!!"
+                        '''
+                    }
+                }
+
         stage('extract') {
             steps {
                 sh '''
