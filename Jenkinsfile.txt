@@ -62,12 +62,12 @@ pipeline {
                     fi
                     . venv/bin/activate
                     pip install --upgrade pip
-                    pip install -r etl/requirements.txt
+                    pip install -r etl-pipeline/requirements.txt
                 '''
             }
         }
 
-        stage('Extract') {
+        stage('extract') {
             steps {
                 sh '''
                     set -e
@@ -77,7 +77,7 @@ pipeline {
 
                     echo "Running EXTRACT for ENVIRONMENT=$ENVIRONMENT FULL_RELOAD=$FULL_RELOAD RUN_DATE=$RUN_DATE_ARG"
 
-                    python etl/extract.py \
+                    python etl-pipeline/extract.py \
                       --env "$ENVIRONMENT" \
                       --full-reload "$FULL_RELOAD" \
                       --run-date "$RUN_DATE_ARG" \
@@ -87,7 +87,7 @@ pipeline {
             }
         }
 
-        stage('Validate Extract') {
+        stage('validate extract') {
             steps {
                 sh '''
                     echo "Running Validate Extract!!!"
@@ -95,7 +95,7 @@ pipeline {
             }
         }
 
-        stage('Transform') {
+        stage('transform') {
             steps {
                 sh '''
                     set -e
@@ -105,7 +105,7 @@ pipeline {
 
                     echo "Running TRANSFORM for $RUN_DATE_ARG"
 
-                    python etl/transform.py \
+                    python etl-pipeline/transform.py \
                       --env "$ENVIRONMENT" \
                       --full-reload "$FULL_RELOAD" \
                       --run-date "$RUN_DATE_ARG" \
@@ -115,7 +115,7 @@ pipeline {
             }
         }
 
-        stage('Validate Transform') {
+        stage('validate transform') {
             steps {
                 sh '''
                     echo "Running Validate Extract"
@@ -123,7 +123,7 @@ pipeline {
             }
         }
 
-        stage('Load') {
+        stage('load') {
             steps {
                 sh '''
                     set -e
@@ -133,7 +133,7 @@ pipeline {
 
                     echo "Running LOAD for $RUN_DATE_ARG"
 
-                    python etl/load.py \
+                    python etl-pipeline/load.py \
                       --env "$ENVIRONMENT" \
                       --full-reload "$FULL_RELOAD" \
                       --run-date "$RUN_DATE_ARG" \
@@ -153,8 +153,8 @@ pipeline {
 
                     echo "Running DATA QUALITY for $RUN_DATE_ARG"
 
-                    if [ -f etl/data_quality.py ]; then
-                      python etl/data_quality.py \
+                    if [ -f etl-pipeline/data-quality.py ]; then
+                      python etl-pipeline/data-quality.py \
                       --env "$ENVIRONMENT" \
                       --full-reload "$FULL_RELOAD" \
                       --run-date "$RUN_DATE_ARG" \
