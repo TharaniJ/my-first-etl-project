@@ -22,6 +22,5 @@ def run_extract(cursor):
     assert exists == 1, "stg_account_transaction was not created"
 
 
-# Optional: pytest wrapper so you can run with `pytest -q`
 def test_extract(cursor):
     run_extract(cursor)

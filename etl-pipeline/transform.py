@@ -22,11 +22,10 @@ def run_transform(cursor, truncate_before_load=True):
 
     cursor.execute("SELECT COUNT(*) FROM stg_account_transaction;")
     (cnt,) = cursor.fetchone()
-    assert cnt >= 0  # basic sanity
+    assert cnt >= 0
     return cnt
 
 
 def test_transform(cursor):
-    # Make sure extract ran first (or table exists)
     cnt = run_transform(cursor, truncate_before_load=True)
     print(f"Loaded {cnt} rows into stg_account_transaction")
