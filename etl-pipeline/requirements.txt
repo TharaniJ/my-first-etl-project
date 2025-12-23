@@ -15,3 +15,6 @@ requests
 
 # (Optional) Validation & nicer errors
 pydantic
+
+pytest
+pymysql
