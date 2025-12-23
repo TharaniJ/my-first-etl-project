@@ -195,13 +195,6 @@ pipeline {
         }
 
     }
-        stage('validate data quality') {
-                steps {
-                    sh '''
-                        echo "Running Validate data quality"
-                    '''
-                }
-            }
 
     post {
         always {
